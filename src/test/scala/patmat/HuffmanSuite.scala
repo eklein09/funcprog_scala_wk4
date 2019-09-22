@@ -66,6 +66,11 @@ class HuffmanSuite extends FunSuite {
     assert(createCodeTree(List('a')) === Leaf('a',1))
     assert(createCodeTree(List('c','d','d')) === Fork(Leaf('c',1),Leaf('d',2),List('c','d'),3))
   }
+  test("decode") {
+    new TestTrees {
+      assert(decode(t1, List(0)) === List('a'))
+    }
+  }
 
   test("decode and encode a very short text should be identity") {
     new TestTrees {

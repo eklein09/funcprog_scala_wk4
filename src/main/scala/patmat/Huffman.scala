@@ -213,8 +213,28 @@ object Huffman {
    * This function decodes the bit sequence `bits` using the code tree `tree` and returns
    * the resulting list of characters.
    */
-    def decode(tree: CodeTree, bits: List[Bit]): List[Char] = ???
-  
+    def decode(tree: CodeTree, bits: List[Bit]): List[Char] = {
+      if (bits.isEmpty)
+        List()
+      else {
+        def decodeInner(tree: CodeTree, subtree: CodeTree, bits: List[Bit]): List[Char] = {
+          subtree match {
+            case Leaf(c,i) => c :: decodeInner(tree, tree, bits)
+            case Fork(l,r,c,_) =>
+              if (bits.isEmpty)
+                List()
+              else {
+                if (bits.head == 0)
+                  decodeInner(tree, l, bits.tail)
+                else
+                  decodeInner(tree, r, bits.tail)
+              }
+          }
+        }
+        decodeInner(tree, tree, bits)
+      }
+    }
+
   /**
    * A Huffman coding tree for the French language.
    * Generated from the data given at
