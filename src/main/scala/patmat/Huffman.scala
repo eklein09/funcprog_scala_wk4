@@ -146,7 +146,25 @@ object Huffman {
    * If `trees` is a list of less than two elements, that list should be returned
    * unchanged.
    */
-    def combine(trees: List[CodeTree]): List[CodeTree] = ???
+
+  def addCodeTreeToSortedList(elem: CodeTree, sortedList: List[CodeTree]): List[CodeTree] = {
+    if (sortedList.isEmpty)
+      List(elem)
+    else if (weight(elem) < weight(sortedList.head)) {
+      elem :: sortedList
+    }
+    else
+      sortedList.head :: addCodeTreeToSortedList(elem, sortedList.tail)
+  }
+
+    def combine(trees: List[CodeTree]): List[CodeTree] = {
+      if (trees.length <= 2)
+        trees
+      else {
+        val newEntry = Fork(trees.head, trees.tail.head, chars(trees.head) ::: chars(trees.tail.head), weight(trees.head) + weight(trees.tail.head))
+        addCodeTreeToSortedList(newEntry, trees.tail.tail)
+      }
+    }
   
   /**
    * This function will be called in the following way:
