@@ -288,7 +288,7 @@ object Huffman {
    * This function returns the bit sequence that represents the character `char` in
    * the code table `table`.
    */
-    def codeBits(table: CodeTable)(char: Char): List[Bit] = ???
+    def codeBits(table: CodeTable)(char: Char): List[Bit] = table.filter(x => x._1 == char).head._2
   
   /**
    * Given a code tree, create a code table which contains, for every character in the
@@ -299,8 +299,8 @@ object Huffman {
    * sub-trees, think of how to build the code table for the entire tree.
    */
     def convert(tree: CodeTree): CodeTable = tree match {
+      case Fork(l, r, c, i) => c.map( x => (x,encode(tree)(List(x))) )
       case Leaf(c,i) => List((c, encode(tree)(List(c))))
-      case Fork(l,r,c,w) => mergeCodeTables(convert(l), convert(r))
     }
   
   /**
@@ -330,5 +330,5 @@ object Huffman {
    * To speed up the encoding process, it first converts the code tree to a code table
    * and then uses it to perform the actual encoding.
    */
-    def quickEncode(tree: CodeTree)(text: List[Char]): List[Bit] = ???
+    def quickEncode(tree: CodeTree)(text: List[Char]): List[Bit] = text.map(x => codeBits(convert(tree))(x)).reduce((x,y) => x ++ y)
   }
