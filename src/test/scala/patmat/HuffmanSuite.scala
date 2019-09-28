@@ -87,4 +87,11 @@ class HuffmanSuite extends FunSuite {
       assert(decode(t1, quickEncode(t1)("ab".toList)) === "ab".toList)
     }
   }
+
+  test("decode and quick encode longer text") {
+    val msg = List('t', 'u', 'r', 'e', ' ', 'f', 'r', 'o', 'm', ' ', '4', '5', ' ', 'B', 'C', ',', ' ', 'm', 'a', 'k', 'i', 'n', 'g', ' ', 'i', 't', ' ', 'o', 'v', 'e', 'r', ' ', '2', '0', '0', '0', ' ', 'y', 'e', 'a', 'r', 's', ' ', 'o', 'l', 'd', '.', ' ', 'R', 'i', 'c', 'h', 'a', 'r', 'd', ' ', 'M', 'c')
+    val t2 = createCodeTree(msg.distinct)
+
+    assert(decode(t2, quickEncode(t2)(msg)) === msg)
+  }
 }
