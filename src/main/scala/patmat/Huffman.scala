@@ -272,7 +272,7 @@ object Huffman {
                 0 :: encodeChar(l, char)
               }
               else {
-                1 :: encodeChar(l, char)
+                1 :: encodeChar(r, char)
               }
           }
         }
